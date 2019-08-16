@@ -1,0 +1,12 @@
+dist: xenial
+sudo: required
+services:
+- docker
+language: bash
+script:
+# prepare qemu
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+# build image
+- docker build -t nikscorp/base-tg-py-bot-arm:latest .
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push nikscorp/base-tg-py-bot-arm:latest
